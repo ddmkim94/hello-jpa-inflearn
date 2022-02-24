@@ -16,7 +16,7 @@
             <property name="hibernate.show_sql" value="true"/> <!-- 작성된 쿼리문을 보여줌 -->
             <property name="hibernate.format_sql" value="true"/> <!-- 쿼리문 포맷팅(정렬) -->
             <property name="hibernate.use_sql_comments" value="true"/> <!-- 해당 쿼리문이 왜 나왔는지 주석을 달아줌 -->
-            <property name="hibernate.hbm2ddl.auto" value="create"/> <!-- 데이터베이스 스키마 자동 생성 -->
+            <property name="hibernate.hbm2ddl.auto" value="update"/> <!-- 데이터베이스 스키마 자동 생성 -->
         </properties>
     </persistence-unit>
 </persistence>
