@@ -16,9 +16,8 @@ public class JpaMain {
         tx.begin(); // jpa에서 데이터를 변경하는 작업은 반드시 트랜잭션 안에서 이루어져야힘
 
         try {
-            Member member = new Member();
-            member.setName("박은빈");
-            em.persist(member); // jpa에 member 엔티티 생성해서 저장
+            Member findMember = em.find(Member.class, 2L);
+            findMember.setName("박은넨");
 
             tx.commit(); // DB에 영구 반영!
         } catch (Exception e) {
