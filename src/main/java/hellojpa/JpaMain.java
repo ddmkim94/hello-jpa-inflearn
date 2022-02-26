@@ -16,10 +16,16 @@ public class JpaMain {
         tx.begin(); // jpa에서 데이터를 변경하는 작업은 반드시 트랜잭션 안에서 이루어져야힘
 
         try {
-            Member findMember1 = em.find(Member.class, 100L); // 데이터베이스 조회 후 1차 캐시에 저장
-            Member findMember2 = em.find(Member.class, 100L); // 1차 캐시 조회
-            System.out.println(findMember1 == findMember2);
+            Member member1 = new Member(600L, "member1");
+            Member member2 = new Member(700L, "member2");
+            em.persist(member1);
+            em.persist(member2);
+            /*
+                영속성 컨텍스트(1차 캐시)에 엔티티를 저장하고 쓰기 지연 저장소에 SQL을 쌓아둠
+                ==> 영속성 컨텍스트에 엔티티와 쿼리를 쌓아둔다고 생각하면됨!!
+             */
 
+            System.out.println("====== SQL 실행 시작!! ======");
             tx.commit(); // DB에 영구 반영! => 쿼리문이 나가는 시점
         } catch (Exception e) {
             tx.rollback();
