@@ -16,10 +16,15 @@ public class JpaMain {
         tx.begin(); // jpa에서 데이터를 변경하는 작업은 반드시 트랜잭션 안에서 이루어져야힘
 
         try {
-            Member findMember = em.find(Member.class, 2L);
-            findMember.setName("박은넨");
+            Member member = new Member();
+            member.setId(100L);
+            member.setName("jpa");
+            em.persist(member);
 
-            tx.commit(); // DB에 영구 반영!
+            Member findMember = em.find(Member.class, 100L);
+            System.out.println("=================================");
+
+            tx.commit(); // DB에 영구 반영! => 쿼리문이 나가는 시점
         } catch (Exception e) {
             tx.rollback();
         } finally {
