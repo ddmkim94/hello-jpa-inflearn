@@ -16,7 +16,9 @@ public class JpaMain {
         tx.begin(); // jpa에서 데이터를 변경하는 작업은 반드시 트랜잭션 안에서 이루어져야힘
 
         try {
-            Member findMember = em.find(Member.class, 100L);
+            Member findMember1 = em.find(Member.class, 100L); // 데이터베이스 조회 후 1차 캐시에 저장
+            Member findMember2 = em.find(Member.class, 100L); // 1차 캐시 조회
+            System.out.println(findMember1 == findMember2);
 
             tx.commit(); // DB에 영구 반영! => 쿼리문이 나가는 시점
         } catch (Exception e) {
