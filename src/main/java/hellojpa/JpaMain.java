@@ -1,7 +1,5 @@
 package hellojpa;
 
-import hellojpa.domain.Member;
-
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
@@ -16,14 +14,6 @@ public class JpaMain {
         tx.begin(); // jpa에서 데이터를 변경하는 작업은 반드시 트랜잭션 안에서 이루어져야함
 
         try {
-            Member findMember = em.find(Member.class, 1L);
-            findMember.setName("VVV");
-
-            em.clear();
-
-            Member findMember2 = em.find(Member.class, 1L);
-            System.out.println("=======================");
-
             tx.commit(); // DB에 영구 반영! => 쿼리문이 나가는 시점
         } catch (Exception e) {
             tx.rollback();
