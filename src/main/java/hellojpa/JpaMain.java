@@ -14,7 +14,28 @@ public class JpaMain {
         tx.begin(); // jpa에서 데이터를 변경하는 작업은 반드시 트랜잭션 안에서 이루어져야함
 
         try {
-            tx.commit(); // DB에 영구 반영! => 쿼리문이 나가는 시점
+
+            Team team = new Team();
+            team.setName("SKT T1 K");
+            em.persist(team); // 쿼리 안나감
+
+            Member member = new Member();
+            member.setUsername("페이커");
+            member.setAge(2002);
+            member.setTeamId(team.getId());
+            em.persist(member); // 쿼리 안나감
+
+            Member findMember = em.find(Member.class, member.getId());
+            Long teamId = findMember.getTeamId();
+
+            Team findTeam = em.find(Team.class, teamId);
+            System.out.println("findTeam = " + findTeam.getName());
+
+            // 쿼리가 persist 시점에 나가는 경우 -> Only IDENTITY 전략
+            System.out.println("========================");
+            tx.commit(); // DB에 영구 반영! => 쿼리문이 나가는
+            System.out.println("========================");
+            // 시점
         } catch (Exception e) {
             tx.rollback();
         } finally {
