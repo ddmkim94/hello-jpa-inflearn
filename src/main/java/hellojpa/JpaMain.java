@@ -21,15 +21,15 @@ public class JpaMain {
 
             Member member = new Member();
             member.setUsername("페이커");
-            member.setAge(2002);
-            member.setTeamId(team.getId());
+            member.setTeam(team);
             em.persist(member); // 쿼리 안나감
 
-            Member findMember = em.find(Member.class, member.getId());
-            Long teamId = findMember.getTeamId();
+            em.flush();
+            em.clear();
 
-            Team findTeam = em.find(Team.class, teamId);
-            System.out.println("findTeam = " + findTeam.getName());
+            Member findMember = em.find(Member.class, member.getId());
+            String teamName = findMember.getTeam().getName();
+            System.out.println("teamName = " + teamName);
 
             // 쿼리가 persist 시점에 나가는 경우 -> Only IDENTITY 전략
             System.out.println("========================");

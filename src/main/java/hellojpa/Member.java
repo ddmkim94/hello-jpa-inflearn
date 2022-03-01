@@ -15,8 +15,12 @@ public class Member {
 
     @Column(name = "name")
     private String username;
-    private int age;
 
-    @Column(name = "team_id")
-    private Long teamId;
+//    @Column(name = "team_id")
+//    private Long teamId;
+
+    @ManyToOne // 어떤 관계인지?
+    @JoinColumn(name = "team_id") // 이 관계에서 조인해야할 컬럼
+    private Team team;
+
 }
