@@ -20,4 +20,10 @@ public class Team {
 
     @OneToMany(mappedBy = "team") // Team는 연관관계의 주인이 아님
     private List<Member> members = new ArrayList<>();
+
+    /**
+    public void addMember(Member member) {
+        this.members.add(member);
+        member.setTeam(this);
+    }*/
 }

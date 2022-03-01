@@ -17,38 +17,29 @@ public class JpaMain {
         try {
 
             Team team = new Team();
-            team.setName("SKT T1 K");
+            team.setName("team1");
             em.persist(team);
 
-            Member member1 = new Member();
-            member1.setUsername("페이커");
-            member1.setTeam(team);
-            em.persist(member1);
+            Member member = new Member();
+            member.setUsername("memberA");
+            member.changeTeam(team);
+            em.persist(member);
 
-            Member member2 = new Member();
-            member2.setUsername("박은빈");
-            member2.setTeam(team);
-            em.persist(member2);
-
-            Member member3 = new Member();
-            member3.setUsername("이정현");
-            member3.setTeam(team);
-            em.persist(member3);
+            team.addMember(member);
 
             em.flush();
             em.clear();
 
-            Member findMember = em.find(Member.class, member1.getId());
-            List<Member> members = findMember.getTeam().getMembers();
-            for (Member m : members) {
-                System.out.println(m.getUsername());
-            }
+            Team findTeam = em.find(Team.class, team.getId());
+            List<Member> members = findTeam.getMembers();
 
-            // 쿼리가 persist 시점에 나가는 경우 -> Only IDENTITY 전략
-            System.out.println("========================");
+            System.out.println("=================");
+            for (Member m : members) {
+                System.out.println("m = " + m.getUsername());
+            }
+            System.out.println("=================");
+
             tx.commit(); // DB에 영구 반영! => 쿼리문이 나가는
-            System.out.println("========================");
-            // 시점
         } catch (Exception e) {
             tx.rollback();
         } finally {
