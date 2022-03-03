@@ -17,21 +17,21 @@ public class Main {
 
         try {
 
-            Member member = new Member();
-            member.setName("손님1");
-            em.persist(member);
-
-            Order order = new Order();
-            order.setOrderDate(LocalDateTime.now());
-            order.setStatus(OrderStatus.ORDER);
-            order.addMember(member);
-            em.persist(order);
-
-            Member findMember = em.find(Member.class, member.getId());
-            List<Order> orders = findMember.getOrders();
-            for (Order o : orders) {
-                System.out.println("o = " + o.getId());
-            }
+//            Member member = new Member();
+//            member.setName("손님1");
+//            em.persist(member);
+//
+//            Order order = new Order();
+//            order.setOrderDate(LocalDateTime.now());
+//            order.setStatus(OrderStatus.ORDER);
+//            order.addMember(member);
+//            em.persist(order);
+//
+//            Member findMember = em.find(Member.class, member.getId());
+//            List<Order> orders = findMember.getOrders();
+//            for (Order o : orders) {
+//                System.out.println("o = " + o.getId());
+//            }
             tx.commit();
         } catch (Exception e) {
             tx.rollback();
