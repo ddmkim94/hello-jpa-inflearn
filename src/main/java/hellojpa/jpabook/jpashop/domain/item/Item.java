@@ -1,5 +1,6 @@
-package hellojpa.jpabook.jpashop.domain;
+package hellojpa.jpabook.jpashop.domain.item;
 
+import hellojpa.jpabook.jpashop.domain.CategoryItem;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,7 +10,9 @@ import java.util.List;
 
 @Entity
 @Getter @Setter
-public class Item {
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "dtype")
+public abstract class Item {
 
     @Id @GeneratedValue
     @Column(name = "item_id")

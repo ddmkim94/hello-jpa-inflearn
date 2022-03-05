@@ -1,5 +1,6 @@
 package hellojpa.jpabook.jpashop.domain;
 
+import hellojpa.jpabook.jpashop.domain.item.Item;
 import lombok.Getter;
 import lombok.Setter;
 
