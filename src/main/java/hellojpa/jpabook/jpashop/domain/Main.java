@@ -1,43 +1,37 @@
 package hellojpa.jpabook.jpashop.domain;
 
-import hellojpa.jpabook.jpashop.domain.item.Album;
-import hellojpa.jpabook.jpashop.domain.item.Book;
+import org.hibernate.Hibernate;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
+import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("hello");
+        PersistenceUnitUtil persistenceUnitUtil = emf.getPersistenceUnitUtil();
         EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
 
         tx.begin();
 
         try {
+            Order order1 = new Order();
+            order1.setOrderDate(LocalDateTime.now());
+            em.persist(order1);
 
-            Book book = new Book();
-            book.setName("JPA");
-            book.setAuthor("김영한");
-            book.setPrice(10000);
-            book.setStockQuantity(1000);
-            book.setIsbn("121032312321388");
-            em.persist(book);
+            em.flush();
+            em.clear();
 
-            Album album = new Album();
-            album.setName("ALBUM1");
-            album.setArtist("AA");
-            album.setPrice(10000);
-            album.setEtc("앨범 상세 정보");
-            em.persist(album);
+            Order reference = em.getReference(Order.class, order1.getId());
+            Hibernate.initialize(reference); // 프록시 초기화! -> 실제 엔티티 생성
+            System.out.println("===== query?? =====");
+            Order realEntity = em.find(Order.class, order1.getId());
+            System.out.println("===== query?? =====");
 
             tx.commit();
         } catch (Exception e) {
             tx.rollback();
+            e.printStackTrace();
         } finally {
             em.close();
         }
