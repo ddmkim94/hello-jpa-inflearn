@@ -15,18 +15,25 @@ public class Main {
         tx.begin();
 
         try {
+            Member member = new Member();
+            member.setName("member1");
+            member.setCity("seoul");
+            em.persist(member);
+
             Order order1 = new Order();
             order1.setOrderDate(LocalDateTime.now());
+            order1.setMember(member);
             em.persist(order1);
 
             em.flush();
             em.clear();
 
-            Order reference = em.getReference(Order.class, order1.getId());
-            Hibernate.initialize(reference); // 프록시 초기화! -> 실제 엔티티 생성
-            System.out.println("===== query?? =====");
-            Order realEntity = em.find(Order.class, order1.getId());
-            System.out.println("===== query?? =====");
+            Order findOrder = em.find(Order.class, order1.getId());
+            System.out.println(findOrder.getClass());
+            System.out.println("==================");
+            findOrder.getMember().getName(); // Member 객체 사용 시점에 proxy 초기화! (Member Select)
+            System.out.println("==================");
+            System.out.println(findOrder.getMember().getClass());
 
             tx.commit();
         } catch (Exception e) {
