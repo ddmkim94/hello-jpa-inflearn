@@ -1,5 +1,8 @@
 package hellojpa.jpabook.jpashop.domain;
 
+import hellojpa.jpabook.jpashop.domain.item.Album;
+import hellojpa.jpabook.jpashop.domain.item.Book;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
@@ -17,21 +20,21 @@ public class Main {
 
         try {
 
-//            Member member = new Member();
-//            member.setName("손님1");
-//            em.persist(member);
-//
-//            Order order = new Order();
-//            order.setOrderDate(LocalDateTime.now());
-//            order.setStatus(OrderStatus.ORDER);
-//            order.addMember(member);
-//            em.persist(order);
-//
-//            Member findMember = em.find(Member.class, member.getId());
-//            List<Order> orders = findMember.getOrders();
-//            for (Order o : orders) {
-//                System.out.println("o = " + o.getId());
-//            }
+            Book book = new Book();
+            book.setName("JPA");
+            book.setAuthor("김영한");
+            book.setPrice(10000);
+            book.setStockQuantity(1000);
+            book.setIsbn("121032312321388");
+            em.persist(book);
+
+            Album album = new Album();
+            album.setName("ALBUM1");
+            album.setArtist("AA");
+            album.setPrice(10000);
+            album.setEtc("앨범 상세 정보");
+            em.persist(album);
+
             tx.commit();
         } catch (Exception e) {
             tx.rollback();
