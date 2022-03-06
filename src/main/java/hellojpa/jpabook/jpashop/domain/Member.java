@@ -19,7 +19,7 @@ public class Member {
     private String street;
     private String zipcode;
 
-    @OneToMany(mappedBy = "member", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "member", orphanRemoval = true)
     private List<Order> orders = new ArrayList<>();
 
     public void addOrder(Order order) {

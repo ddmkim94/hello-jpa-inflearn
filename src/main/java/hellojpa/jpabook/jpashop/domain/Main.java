@@ -22,11 +22,15 @@ public class Main {
             member.setName("member1");
             member.setCity("seoul");
             member.addOrder(order1);
-
             em.persist(member);
+            em.persist(order1);
 
-//            em.flush();
-//            em.clear();
+            em.flush();
+            em.clear();
+
+            Member findMember = em.find(Member.class, member.getId());
+            // findMember.getOrders().remove(0);
+            em.remove(findMember);
 
             tx.commit();
         } catch (Exception e) {
