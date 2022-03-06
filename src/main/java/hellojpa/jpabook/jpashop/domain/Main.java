@@ -1,5 +1,7 @@
 package hellojpa.jpabook.jpashop.domain;
 
+import hellojpa.jpabook.jpashop.domain.item.Book;
+import hellojpa.jpabook.jpashop.domain.item.Item;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
@@ -15,22 +17,35 @@ public class Main {
         tx.begin();
 
         try {
-            Order order1 = new Order();
-            order1.setOrderDate(LocalDateTime.now());
+            Book book = new Book();
+            book.setIsbn("1234");
+            book.setPrice(10000);
+            em.persist(book);
+
+            OrderItem orderItem = new OrderItem();
+            orderItem.setItem(book);
+            orderItem.setOrderPrice(10000);
+            orderItem.setCount(10);
+
+            Delivery delivery = new Delivery();
+            delivery.setDeliveryStatus(DeliveryStatus.COMP);
+            delivery.setCity("seoul");
+            delivery.setStreet("road");
+            delivery.setZipcode("02231");
+
+            Order order = new Order();
+            order.setOrderDate(LocalDateTime.now());
+            order.addOrderItem(orderItem);
+            order.addDelivery(delivery);
 
             Member member = new Member();
             member.setName("member1");
             member.setCity("seoul");
-            member.addOrder(order1);
+            member.addOrder(order); // 연관관계 편의 메서드
             em.persist(member);
-            em.persist(order1);
 
             em.flush();
             em.clear();
-
-            Member findMember = em.find(Member.class, member.getId());
-            // findMember.getOrders().remove(0);
-            em.remove(findMember);
 
             tx.commit();
         } catch (Exception e) {
