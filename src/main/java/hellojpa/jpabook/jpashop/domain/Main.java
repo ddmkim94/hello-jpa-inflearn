@@ -17,35 +17,15 @@ public class Main {
         tx.begin();
 
         try {
-            Book book = new Book();
-            book.setIsbn("1234");
-            book.setPrice(10000);
-            em.persist(book);
-
-            OrderItem orderItem = new OrderItem();
-            orderItem.setItem(book);
-            orderItem.setOrderPrice(10000);
-            orderItem.setCount(10);
-
-            Delivery delivery = new Delivery();
-            delivery.setDeliveryStatus(DeliveryStatus.COMP);
-            delivery.setCity("seoul");
-            delivery.setStreet("road");
-            delivery.setZipcode("02231");
-
-            Order order = new Order();
-            order.setOrderDate(LocalDateTime.now());
-            order.addOrderItem(orderItem);
-            order.addDelivery(delivery);
 
             Member member = new Member();
-            member.setName("member1");
-            member.setCity("seoul");
-            member.addOrder(order); // 연관관계 편의 메서드
+            member.setName("박은빈");
+            member.setAddress(new Address("seoul", "sagajungro", "1557"));
+            member.setPeriod(new Period(LocalDateTime.of(2020, 1, 1, 1, 1), LocalDateTime.now()));
             em.persist(member);
 
-            em.flush();
-            em.clear();
+            long workPeriod = member.getPeriod().work();
+            System.out.println("workPeriod = " + workPeriod + "년");
 
             tx.commit();
         } catch (Exception e) {
