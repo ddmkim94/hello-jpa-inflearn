@@ -18,16 +18,20 @@ public class Main {
 
         try {
 
+            Address address = new Address("seoul", "sagajungro", "1557");
+
             Member member = new Member();
             member.setName("박은빈");
-            member.setAddress(new Address("seoul", "sagajungro", "1557"));
+            member.setAddress(address);
             member.setPeriod(new Period(LocalDateTime.of(2020, 1, 1, 1, 1), LocalDateTime.now()));
             em.persist(member);
 
-            long workPeriod = member.getPeriod().work();
-            System.out.println("workPeriod = " + workPeriod + "년");
+            Address newAddress = new Address("대전", address.getStreet(), address.getZipcode());
+            member.setAddress(newAddress);
 
+            System.out.println("===================");
             tx.commit();
+            System.out.println("===================");
         } catch (Exception e) {
             tx.rollback();
             e.printStackTrace();

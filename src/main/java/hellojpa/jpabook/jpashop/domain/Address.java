@@ -1,11 +1,12 @@
 package hellojpa.jpabook.jpashop.domain;
 
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Embeddable;
 
 @Embeddable
-@NoArgsConstructor
+@Getter @NoArgsConstructor
 public class Address {
 
     private String city;

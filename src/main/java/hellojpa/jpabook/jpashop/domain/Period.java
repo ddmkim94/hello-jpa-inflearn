@@ -9,8 +9,7 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 
 @Embeddable
-@Getter @Setter
-@NoArgsConstructor
+@Getter @NoArgsConstructor
 public class Period {
 
     private LocalDateTime startDate;
