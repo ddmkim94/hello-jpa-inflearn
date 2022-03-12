@@ -3,7 +3,10 @@ package hellojpa;
 import hellojpa.jpabook.jpashop.domain.Address;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class JpaMain {
     public static void main(String[] args) {
@@ -15,23 +18,34 @@ public class JpaMain {
 
         try {
 
-            Member member = new Member();
-            member.setUsername("member1");
-            member.setAge(20);
-            em.persist(member);
+            for (int i = 1; i <= 100; i++) {
+                Member member = new Member();
+                member.setUsername("member" + i);
+                member.setAge(i);
+                em.persist(member);
+            }
 
-            Member member2 = new Member();
-            member2.setUsername("member2");
-            member2.setAge(30);
-            em.persist(member2);
+            // <페이지 번호, 멤버 목록>
+            Map<Integer, List<Member>> paging = new HashMap<>();
 
-            // DTO를 따로 만들어서 쿼리문을 만드는 방법
-            List<UserDTO> members = em.createQuery("select new hellojpa.UserDTO(m.username, m.age) from Member m", UserDTO.class)
-                    .getResultList();
+            int page = 1;
+            int count = -10;
 
-            for (UserDTO m : members) {
-                System.out.println("username = " + m.getUsername());
-                System.out.println("age = " + m.getAge());
+            while (count < 90) {
+                List<Member> result = em.createQuery("select m from Member m order by m.id desc", Member.class)
+                        .setFirstResult(count + 10)
+                        .setMaxResults(10)
+                        .getResultList();
+
+                List<Member> members = new ArrayList<>(result);
+                paging.put(page, members);
+                page++;
+                count += 10;
+            }
+
+            for (int i = 1; i <= paging.size(); i++) {
+                System.out.println(i + "페이지");
+                System.out.println(paging.get(i));
             }
 
             tx.commit(); // DB에 영구 반영! => 쿼리문이 나가는
