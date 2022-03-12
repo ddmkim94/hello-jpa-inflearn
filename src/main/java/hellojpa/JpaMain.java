@@ -1,9 +1,8 @@
 package hellojpa;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
+import hellojpa.jpabook.jpashop.domain.Address;
+
+import javax.persistence.*;
 import java.util.List;
 
 public class JpaMain {
@@ -16,28 +15,24 @@ public class JpaMain {
 
         try {
 
-            Team team = new Team();
-            team.setName("team1");
-            em.persist(team);
-
             Member member = new Member();
-            member.setUsername("memberA");
-            member.changeTeam(team);
+            member.setUsername("member1");
+            member.setAge(20);
             em.persist(member);
 
-            // team.addMember(member);
+            Member member2 = new Member();
+            member2.setUsername("member2");
+            member2.setAge(30);
+            em.persist(member2);
 
-            em.flush();
-            em.clear();
+            // DTO를 따로 만들어서 쿼리문을 만드는 방법
+            List<UserDTO> members = em.createQuery("select new hellojpa.UserDTO(m.username, m.age) from Member m", UserDTO.class)
+                    .getResultList();
 
-            Team findTeam = em.find(Team.class, team.getId());
-            List<Member> members = findTeam.getMembers();
-
-            System.out.println("=================");
-            for (Member m : members) {
-                System.out.println("m = " + m.getUsername());
+            for (UserDTO m : members) {
+                System.out.println("username = " + m.getUsername());
+                System.out.println("age = " + m.getAge());
             }
-            System.out.println("=================");
 
             tx.commit(); // DB에 영구 반영! => 쿼리문이 나가는
         } catch (Exception e) {

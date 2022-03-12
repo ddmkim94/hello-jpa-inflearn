@@ -7,8 +7,9 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-// @Entity
+@Entity
 @Getter @Setter
+@Table(name = "jpql_team")
 public class Team {
 
     @Id
