@@ -17,6 +17,11 @@ public class Main {
         tx.begin();
 
         try {
+            Address address1 = new Address("서울", "망우로20길 86", "02514");
+            Address address2 = new Address("서울", "망우로20길 86", "02514");
+
+            System.out.println("equals(), hashcode() 생성 후 주소 비교 : " + address1.equals(address2));
+
             Member member = new Member();
             member.setName("박은빈");
             member.setAddress(new Address("서울", "망우로20길 86", "02514"));
