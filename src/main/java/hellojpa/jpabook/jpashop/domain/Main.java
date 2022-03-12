@@ -17,17 +17,12 @@ public class Main {
         tx.begin();
 
         try {
-
-            Address address = new Address("seoul", "sagajungro", "1557");
-
             Member member = new Member();
             member.setName("박은빈");
-            member.setAddress(address);
+            member.getAddressHistory().add(new AddressEntity("seoul", "sagajungro", "1557"));
+            member.getAddressHistory().add(new AddressEntity("busan", "sungro", "1547"));
             member.setPeriod(new Period(LocalDateTime.of(2020, 1, 1, 1, 1), LocalDateTime.now()));
             em.persist(member);
-
-            Address newAddress = new Address("대전", address.getStreet(), address.getZipcode());
-            member.setAddress(newAddress);
 
             System.out.println("===================");
             tx.commit();
