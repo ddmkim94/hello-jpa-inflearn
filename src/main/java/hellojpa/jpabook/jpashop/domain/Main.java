@@ -19,9 +19,7 @@ public class Main {
         try {
             Member member = new Member();
             member.setName("박은빈");
-            member.getAddressHistory().add(new AddressEntity("seoul", "sagajungro", "1557"));
-            member.getAddressHistory().add(new AddressEntity("busan", "sungro", "1547"));
-            member.setPeriod(new Period(LocalDateTime.of(2020, 1, 1, 1, 1), LocalDateTime.now()));
+            member.setAddress(new Address("서울", "망우로20길 86", "02514"));
             em.persist(member);
 
             System.out.println("===================");

@@ -18,12 +18,8 @@ public class Member {
     private Long id;
     private String name;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "member_id")
-    private List<AddressEntity> addressHistory = new ArrayList<>();
-
     @Embedded
-    private Period period;
+    private Address address;
 
     @OneToMany(mappedBy = "member", cascade = ALL)
     private List<Order> orders = new ArrayList<>();
