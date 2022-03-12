@@ -27,9 +27,15 @@ public class Main {
             member.setAddress(new Address("서울", "망우로20길 86", "02514"));
             em.persist(member);
 
-            System.out.println("===================");
+            // jpql을 사용하면 flush() 실행!
+            String jpql = "select m from Member m where m.name = '박은빈'";
+            Member findMember = em.createQuery(jpql, Member.class).getSingleResult();
+            System.out.println(findMember.getName());
+
+            Query query = em.createQuery("select m.name, m.age from Member m");
+            Object singleResult = query.getSingleResult();
+
             tx.commit();
-            System.out.println("===================");
         } catch (Exception e) {
             tx.rollback();
             e.printStackTrace();
