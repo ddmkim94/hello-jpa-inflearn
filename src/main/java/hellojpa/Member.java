@@ -6,6 +6,8 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static javax.persistence.FetchType.*;
+
 @Entity
 @Getter @Setter
 @Table(name = "jpql_member")
@@ -19,7 +21,7 @@ public class Member {
     private String username;
     private int age;
 
-    @ManyToOne // 어떤 관계인지?
+    @ManyToOne(fetch = LAZY) // 어떤 관계인지?
     @JoinColumn(name = "team_id") // 이 관계에서 조인해야할 컬럼
     private Team team;
 

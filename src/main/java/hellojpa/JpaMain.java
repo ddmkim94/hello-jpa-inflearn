@@ -17,7 +17,28 @@ public class JpaMain {
         tx.begin(); // jpa에서 데이터를 변경하는 작업은 반드시 트랜잭션 안에서 이루어져야함
 
         try {
-            Map<Integer, List<Member>> paging = paging(em);
+            // Map<Integer, List<Member>> paging = paging(em);
+
+            Team team = new Team();
+            team.setName("teamA");
+            em.persist(team);
+
+            Member member = new Member();
+            member.setUsername("member1");
+            member.setAge(20);
+            member.setTeam(team);
+            em.persist(member);
+
+            em.flush();
+            em.clear();
+
+            /*
+                JPA는 연관관계를 통해 조인을 하면
+                자동으로 외래키와 매핑되는 테이블의 PK를 찾아서 ON절을 완성시켜줌 ( == )
+                select
+             */
+            List<Member> resultList = em.createQuery("select m from Member m left join m.team t on t.name = 'teamA'", Member.class)
+                    .getResultList();
 
             tx.commit(); // DB에 영구 반영! => 쿼리문이 나가는
         } catch (Exception e) {
