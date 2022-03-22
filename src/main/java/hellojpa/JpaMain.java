@@ -3,10 +3,7 @@ package hellojpa;
 import hellojpa.jpabook.jpashop.domain.Address;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class JpaMain {
     public static void main(String[] args) {
@@ -24,7 +21,7 @@ public class JpaMain {
             em.persist(team);
 
             Member member = new Member();
-            member.setUsername("member1");
+            member.setUsername("박은빈");
             member.setAge(20);
             member.setTeam(team);
             em.persist(member);
@@ -32,15 +29,15 @@ public class JpaMain {
             em.flush();
             em.clear();
 
-            /*
-                JPA는 연관관계를 통해 조인을 하면
-                자동으로 외래키와 매핑되는 테이블의 PK를 찾아서 ON절을 완성시켜줌 ( == )
-                select
-             */
-            List<Member> resultList = em.createQuery("select m from Member m left join m.team t on t.name = 'teamA'", Member.class)
+            String query = "select m.username from Team t inner join t.members m";
+            List<String> result = em.createQuery(query, String.class)
                     .getResultList();
 
-            tx.commit(); // DB에 영구 반영! => 쿼리문이 나가는
+            for (String s : result) {
+                System.out.println("s = " + s);
+            }
+
+            tx.commit();
         } catch (Exception e) {
             tx.rollback();
         } finally {
