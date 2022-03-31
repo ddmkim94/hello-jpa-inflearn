@@ -16,25 +16,48 @@ public class JpaMain {
         try {
             // Map<Integer, List<Member>> paging = paging(em);
 
-            Team team = new Team();
-            team.setName("teamA");
-            em.persist(team);
+            Team teamA = new Team();
+            teamA.setName("팀A");
+            em.persist(teamA);
 
-            Member member = new Member();
-            member.setUsername("박은빈");
-            member.setAge(20);
-            member.setTeam(team);
-            em.persist(member);
+            Team teamB = new Team();
+            teamB.setName("팀B");
+            em.persist(teamB);
+
+            Team teamC = new Team();
+            teamC.setName("팀C");
+            em.persist(teamC);
+
+            Member member1 = new Member();
+            member1.setUsername("회원1");
+            member1.setTeam(teamA);
+            em.persist(member1);
+
+            Member member2 = new Member();
+            member2.setUsername("회원2");
+            member2.setTeam(teamA);
+            em.persist(member2);
+
+            Member member3 = new Member();
+            member3.setUsername("회원3");
+            member3.setTeam(teamB);
+            em.persist(member3);
+
+            Member member4 = new Member();
+            member4.setUsername("회원4");
+            em.persist(member4);
 
             em.flush();
             em.clear();
 
-            String query = "select m.username from Team t inner join t.members m";
-            List<String> result = em.createQuery(query, String.class)
-                    .getResultList();
+            String query = "select t from Team t join fetch t.members";
+            List<Team> result = em.createQuery(query, Team.class).getResultList();
 
-            for (String s : result) {
-                System.out.println("s = " + s);
+            for (Team team : result) {
+                System.out.println("teamName = " + team.getName());
+                for (Member member : team.getMembers()) {
+                    System.out.println("-> username = " + member.getUsername() + ", member = " + member);
+                }
             }
 
             tx.commit();
